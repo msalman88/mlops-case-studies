@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+.venv/
+env/
+.env/
+
+# Data - We don't want to commit large data files to Git
+data/
+
+# Notebook checkpoints
+.ipynb_checkpoints
