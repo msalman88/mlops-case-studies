@@ -9,7 +9,7 @@ env/
 .env/
 
 # Data - We don't want to commit large data files to Git
-data/
+#data/
 
 # Notebook checkpoints
 .ipynb_checkpoints

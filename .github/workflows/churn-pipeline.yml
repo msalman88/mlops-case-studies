@@ -1,0 +1,46 @@
+# Name of your workflow
+name: Churn Model Training Pipeline
+
+# Define the trigger for this workflow
+on:
+  push:
+    branches:
+      - main # Run on pushes to the main branch
+    paths:
+      - 'customer-churn-pipeline/**' # Only run if files inside this folder change
+      - '.github/workflows/churn-pipeline.yml'
+
+# Define the jobs to run
+jobs:
+  build-and-train:
+    # Use the latest version of Ubuntu as the runner environment
+    runs-on: ubuntu-latest
+    
+    # Define the steps in the job
+    steps:
+      # 1. Check out your repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up a specific version of Python
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+
+      # 3. Install the project dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r customer-churn-pipeline/requirements.txt
+          
+      # 4. Run the training script
+      - name: Run training script
+        run: python customer-churn-pipeline/src/train.py
+        
+      # 5. Upload the trained model as an artifact
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: churn-model-pipeline
+          path: customer-churn-pipeline/artifacts/model_pipeline.joblib
